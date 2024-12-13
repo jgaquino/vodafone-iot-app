@@ -1,9 +1,11 @@
+import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 
 export default function Devices() {
   return (
     <main>
       <Topbar />
+      <PageTitle>Devices</PageTitle>
       <DevicesTable />
     </main>
   );
