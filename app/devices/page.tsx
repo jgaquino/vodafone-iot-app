@@ -1,6 +1,9 @@
+import Topbar from "@/components/Topbar";
+
 export default function Devices() {
   return (
     <main>
+      <Topbar />
       <DevicesTable />
     </main>
   );
