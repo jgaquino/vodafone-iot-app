@@ -1,8 +1,10 @@
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-markercluster";
 import { type LatLngExpression } from "leaflet";
 import "leaflet-defaulticon-compatibility";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css"; // Import the marker cluster styles
 
 type MarkerType = {
   position: LatLngExpression;
@@ -38,11 +40,13 @@ export default function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {markers.map((marker, index) => (
-        <Marker key={index} position={marker.position}>
-          <Tooltip>{marker.label}</Tooltip>
-        </Marker>
-      ))}
+      <MarkerClusterGroup>
+        {markers.map((marker, index) => (
+          <Marker key={index} position={marker.position}>
+            <Tooltip>{marker.label}</Tooltip>
+          </Marker>
+        ))}
+      </MarkerClusterGroup>
     </MapContainer>
   );
 }
