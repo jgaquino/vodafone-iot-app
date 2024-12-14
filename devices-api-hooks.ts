@@ -1,11 +1,13 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import type Device from "./types/Device";
 
+const BASE_URI_ENDPOINT = "/api/devices";
+
 export const useDevice = (deviceId: string) => {
   const [device, setDevice] = useState<Device | null>(null);
 
   useEffect(() => {
-    fetch(`/api/devices?deviceId=${deviceId}`)
+    fetch(`${BASE_URI_ENDPOINT}?deviceId=${deviceId}`)
       .then((response) => response.json())
       .then((data) => setDevice(data.device))
       .catch(() => alert("Something went wrong..."));
@@ -18,7 +20,7 @@ export const useDevices = () => {
   const [devices, setDevices] = useState<Device[]>([]);
 
   useEffect(() => {
-    fetch("/api/devices")
+    fetch(BASE_URI_ENDPOINT)
       .then((response) => response.json())
       .then((data) => {
         setDevices(data.devices);
@@ -33,7 +35,7 @@ export const useAddNewDevice = (
   setDevices: Dispatch<SetStateAction<Device[]>>
 ) => {
   const addNewDevice = (newDevice: Device) => {
-    fetch("/api/devices", {
+    fetch(BASE_URI_ENDPOINT, {
       method: "POST",
       body: JSON.stringify({ device: newDevice }),
     })
@@ -52,7 +54,7 @@ export const useDeleteDevice = (
     if (!confirm(`Are you sure you want to delete the device with ID ${id}?`))
       return;
 
-    fetch(`/api/devices?deviceId=${id}`, {
+    fetch(`${BASE_URI_ENDPOINT}?deviceId=${id}`, {
       method: "DELETE",
     })
       .then((response) => {
