@@ -74,11 +74,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
+export async function DELETE(request: NextRequest) {
   try {
-    const { id } = await request.json();
+    const { searchParams } = new URL(request.url);
+    const deviceId = searchParams.get("deviceId");
 
-    if (!id) {
+    if (!deviceId) {
       return NextResponse.json(
         { error: "Device ID is required" },
         { status: 400 }
@@ -88,15 +89,17 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     const DB = await connectAndGetDatabase();
     const devicesCollection = DB.collection(DEVICES_COLLECTION);
 
-    const result: DeleteResult = await devicesCollection.deleteOne({ id });
+    const result: DeleteResult = await devicesCollection.deleteOne({
+      id: parseInt(deviceId),
+    });
 
     if (result.deletedCount === 1) {
-      return NextResponse.json(
-        { message: "Device deleted successfully" },
-        { status: 200 }
-      );
+      return NextResponse.json({ status: 200 });
     } else {
-      return NextResponse.json({ error: "Device not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: `Device #${deviceId} not found` },
+        { status: 404 }
+      );
     }
   } catch (error) {
     console.error("Error deleting device:", error);

@@ -32,6 +32,25 @@ export default function Devices() {
       .catch(() => alert("Something went wrong..."));
   }, [newDevice]);
 
+  const deleteDevice = (id: number) => {
+    if (!confirm(`Are you sure you want to delete the device with ID ${id}?`))
+      return;
+
+    fetch(`/api/devices?deviceId=${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          setDevices((prevDevices) =>
+            prevDevices.filter((device) => device.id !== id)
+          );
+        } else {
+          alert("Failed to delete device.");
+        }
+      })
+      .catch(() => alert("Something went wrong..."));
+  };
+
   return (
     <main>
       <Topbar />
@@ -44,7 +63,7 @@ export default function Devices() {
           Add new device
         </button>
       </div>
-      <DevicesTable devices={devices} />
+      <DevicesTable devices={devices} onDeleteDevice={deleteDevice} />
       <NewDeviceModal
         isOpen={modalVisibility}
         onClose={() => setModalVisibility(false)}
@@ -54,10 +73,12 @@ export default function Devices() {
   );
 }
 
-type DevicesTable = {
+type DevicesTableProps = {
   devices: Device[];
+  onDeleteDevice: (id: number) => void;
 };
-const DevicesTable = ({ devices }: DevicesTable) => {
+
+const DevicesTable = ({ devices, onDeleteDevice }: DevicesTableProps) => {
   const router = useRouter();
 
   const handleRowClick = useCallback(
@@ -83,6 +104,9 @@ const DevicesTable = ({ devices }: DevicesTable) => {
             </th>
             <th className="border border-gray-300 px-4 py-2 text-left">
               Longitude
+            </th>
+            <th className="border border-gray-300 px-4 py-2 text-left">
+              Actions
             </th>
           </tr>
         </thead>
@@ -110,6 +134,18 @@ const DevicesTable = ({ devices }: DevicesTable) => {
               </td>
               <td className="border border-gray-300 px-4 py-2">
                 {device.longitude}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    onDeleteDevice(device.id!);
+                  }}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
