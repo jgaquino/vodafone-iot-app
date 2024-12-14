@@ -1,3 +1,7 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 
@@ -12,6 +16,8 @@ export default function Devices() {
 }
 
 const DevicesTable = () => {
+  const router = useRouter();
+
   const devices = [
     {
       id: 1,
@@ -30,6 +36,11 @@ const DevicesTable = () => {
       longitude: -118.2437,
     },
   ];
+
+  const handleRowClick = useCallback(
+    (id: number) => router.push(`/devices/${id}`),
+    []
+  );
 
   return (
     <div className="overflow-x-auto text-black">
@@ -56,7 +67,10 @@ const DevicesTable = () => {
           {devices.map((device, index) => (
             <tr
               key={device.id}
-              className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+              onClick={() => handleRowClick(device.id)}
+              className={`cursor-pointer ${
+                index % 2 === 0 ? "bg-white" : "bg-gray-50"
+              } hover:bg-gray-200`}
             >
               <td className="border border-gray-300 px-4 py-2">{device.id}</td>
               <td className="border border-gray-300 px-4 py-2">
