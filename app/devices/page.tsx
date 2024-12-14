@@ -1,52 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 import NewDeviceModal from "@/components/NewDeviceModal";
 import type Device from "@/types/Device";
+import {
+  useDevices,
+  useAddNewDevice,
+  useDeleteDevice,
+} from "@/devices-api-hooks";
 
 export default function DevicesPage() {
-  const [devices, setDevices] = useState<Device[]>([]);
+  const { devices, setDevices } = useDevices();
+  const addNewDevice = useAddNewDevice(setDevices);
+  const deleteDevice = useDeleteDevice(setDevices);
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
-
-  useEffect(() => {
-    fetch("/api/devices")
-      .then((response) => response.json())
-      .then((data) => {
-        setDevices(data.devices);
-      })
-      .catch(() => alert("Something went wrong..."));
-  }, []);
-
-  const addNewDevice = (newDevice: Device) => {
-    fetch("/api/devices", {
-      method: "POST",
-      body: JSON.stringify({ device: newDevice }),
-    })
-      .then((response) => response.json())
-      .then((device) => setDevices((prevDevices) => [...prevDevices, device]))
-      .catch(() => alert("Something went wrong..."));
-  };
-  const deleteDevice = (id: number) => {
-    if (!confirm(`Are you sure you want to delete the device with ID ${id}?`))
-      return;
-
-    fetch(`/api/devices?deviceId=${id}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          setDevices((prevDevices) =>
-            prevDevices.filter((device) => device.id !== id)
-          );
-        } else {
-          alert("Failed to delete device.");
-        }
-      })
-      .catch(() => alert("Something went wrong..."));
-  };
 
   return (
     <main>

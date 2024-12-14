@@ -1,21 +1,15 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback } from "react";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 import Device from "@/types/Device";
+import { useDevice } from "@/devices-api-hooks";
 
 export default function DevicePage() {
-  const [device, setDevice] = useState<Device | null>(null);
   const { deviceId } = useParams();
-
-  useEffect(() => {
-    fetch(`/api/devices?deviceId=${deviceId}`)
-      .then((response) => response.json())
-      .then((data) => setDevice(data.device))
-      .catch(() => alert("Something went wrong..."));
-  }, []);
+  const { device } = useDevice(String(deviceId));
 
   if (!deviceId) return null;
   if (!device) return null;
