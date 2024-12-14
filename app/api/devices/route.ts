@@ -5,12 +5,22 @@ import type Device from "@/types/Device";
 
 const DEVICES_COLLECTION = "devices";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const DB = await connectAndGetDatabase();
-    const devices = await DB.collection(DEVICES_COLLECTION).find().toArray();
+    const { searchParams } = new URL(request.url);
+    const deviceId = searchParams.get("deviceId");
 
-    return NextResponse.json({ devices });
+    const DB = await connectAndGetDatabase();
+
+    if (!deviceId) {
+      const devices = await DB.collection(DEVICES_COLLECTION).find().toArray();
+      return NextResponse.json({ devices });
+    } else {
+      const device = await DB.collection(DEVICES_COLLECTION).findOne({
+        id: parseInt(deviceId),
+      });
+      return NextResponse.json({ device });
+    }
   } catch (error) {
     console.error("Error fetching data:", error);
     return NextResponse.json(
