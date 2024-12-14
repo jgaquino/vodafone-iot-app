@@ -5,12 +5,12 @@ import { useState, useCallback, useEffect } from "react";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 import NewDeviceModal from "@/components/NewDeviceModal";
-import Device from "@/types/Device";
+import type Device from "@/types/Device";
 
 export default function Devices() {
   const [newDevice, setNewDevice] = useState<Device | null>(null);
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [devices, setDevices] = useState<Device[]>([]); // State for devices
+  const [devices, setDevices] = useState<Device[]>([]);
 
   useEffect(() => {
     fetch("/api/devices")

@@ -1,3 +1,4 @@
+import type Device from "@/types/Device";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import { type LatLngExpression } from "leaflet";
@@ -11,29 +12,19 @@ type MarkerType = {
   label: string;
 };
 
-const markers: MarkerType[] = [
-  { position: [51.5074, -0.1278], label: "London" },
-  { position: [48.8566, 2.3522], label: "Paris" },
-  { position: [52.52, 13.405], label: "Berlin" },
-  { position: [40.4168, -3.7038], label: "Madrid" },
-  { position: [41.9028, 12.4964], label: "Rome" },
-  { position: [52.3676, 4.9041], label: "Amsterdam" },
-  { position: [48.2082, 16.3738], label: "Vienna" },
-  { position: [50.8503, 4.3517], label: "Brussels" },
-  { position: [47.3769, 8.5417], label: "Zurich" },
-  { position: [37.9838, 23.7275], label: "Athens" },
-  { position: [38.7169, -9.1395], label: "Lisbon" },
-  { position: [59.3293, 18.0686], label: "Stockholm" },
-  { position: [59.9139, 10.7522], label: "Oslo" },
-  { position: [55.6761, 12.5683], label: "Copenhagen" },
-  { position: [60.1692, 24.9402], label: "Helsinki" },
-];
+type MapProps = {
+  devices: Device[];
+};
+export default function Map({ devices }: MapProps) {
+  const markers: MarkerType[] = devices.map((device: Device) => ({
+    label: device.name,
+    position: [parseFloat(device.latitude), parseFloat(device.longitude)],
+  }));
 
-export default function Map() {
   return (
     <MapContainer
-      center={[51.505, -0.09]}
-      zoom={4}
+      center={MALAGA_CENTER_POSITION}
+      zoom={13}
       style={{ height: "500px", width: "100%" }}
     >
       <TileLayer
@@ -50,3 +41,7 @@ export default function Map() {
     </MapContainer>
   );
 }
+
+const MALAGA_CENTER_POSITION: LatLngExpression = [
+  36.732143179858795, -4.422340393066407,
+];
