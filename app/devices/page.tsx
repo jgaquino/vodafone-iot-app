@@ -1,13 +1,36 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 import NewDeviceModal from "@/components/NewDeviceModal";
+import Device from "@/types/Device";
 
 export default function Devices() {
+  const [newDevice, setNewDevice] = useState<Device | null>(null);
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [devices, setDevices] = useState<Device[]>([]); // State for devices
+
+  useEffect(() => {
+    fetch("/api/devices")
+      .then((response) => response.json())
+      .then((data) => {
+        setDevices(data.devices);
+      })
+      .catch(() => alert("Something went wrong..."));
+  }, []);
+
+  useEffect(() => {
+    if (!newDevice) return;
+    fetch("/api/devices", {
+      method: "POST",
+      body: JSON.stringify({ device: newDevice }),
+    })
+      .then((response) => response.json())
+      .then((device) => setDevices((prevDevices) => [...prevDevices, device]))
+      .catch(() => alert("Something went wrong..."));
+  }, [newDevice]);
 
   return (
     <main>
@@ -21,40 +44,24 @@ export default function Devices() {
           Add new device
         </button>
       </div>
-      <DevicesTable />
+      <DevicesTable devices={devices} />
       <NewDeviceModal
         isOpen={modalVisibility}
         onClose={() => setModalVisibility(false)}
-        onAddDevice={(newDevice) => console.log("newDevice ", newDevice)}
+        onAddDevice={(device: Device) => setNewDevice(device)}
       />
     </main>
   );
 }
 
-const DevicesTable = () => {
+type DevicesTable = {
+  devices: Device[];
+};
+const DevicesTable = ({ devices }: DevicesTable) => {
   const router = useRouter();
 
-  const devices = [
-    {
-      id: 1,
-      name: "Device 1",
-      mobileNumber: "+1234567890",
-      lastConnection: "2024-12-13 12:00 PM",
-      latitude: 40.7128,
-      longitude: -74.006,
-    },
-    {
-      id: 2,
-      name: "Device 2",
-      mobileNumber: "+0987654321",
-      lastConnection: "2024-12-13 11:45 AM",
-      latitude: 34.0522,
-      longitude: -118.2437,
-    },
-  ];
-
   const handleRowClick = useCallback(
-    (id: number) => router.push(`/devices/${id}`),
+    (id?: number) => router.push(`/devices/${id}`),
     []
   );
 

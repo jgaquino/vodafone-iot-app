@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { InsertOneResult, DeleteResult } from "mongodb";
 import { connectAndGetDatabase } from "@/lib/mongodb";
+import type Device from "@/types/Device";
 
 const DEVICES_COLLECTION = "devices";
 
@@ -32,10 +33,22 @@ export async function POST(request: NextRequest) {
 
     const DB = await connectAndGetDatabase();
     const devicesCollection = DB.collection(DEVICES_COLLECTION);
-    const result: InsertOneResult = await devicesCollection.insertOne(device);
+    const lastDeviceCreated = await devicesCollection.findOne(
+      {},
+      { sort: { createdAt: -1 } }
+    );
+
+    const newDevice: Device = {
+      id: lastDeviceCreated ? lastDeviceCreated.id + 1 : 1,
+      createdAt: new Date(),
+      ...device,
+    };
+    const result: InsertOneResult = await devicesCollection.insertOne(
+      newDevice
+    );
 
     if (result.acknowledged) {
-      return NextResponse.json({ device }, { status: 201 });
+      return NextResponse.json(newDevice);
     } else {
       return NextResponse.json(
         { error: "Failed to insert device" },
