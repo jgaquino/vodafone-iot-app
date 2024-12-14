@@ -1,16 +1,32 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
+import NewDeviceModal from "@/components/NewDeviceModal";
 
 export default function Devices() {
+  const [modalVisibility, setModalVisibility] = useState(false);
+
   return (
     <main>
       <Topbar />
       <PageTitle>Devices</PageTitle>
+      <div className="flex justify-end mb-4">
+        <button
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={() => setModalVisibility(true)}
+        >
+          Add new device
+        </button>
+      </div>
       <DevicesTable />
+      <NewDeviceModal
+        isOpen={modalVisibility}
+        onClose={() => setModalVisibility(false)}
+        onAddDevice={(newDevice) => console.log("newDevice ", newDevice)}
+      />
     </main>
   );
 }
