@@ -3,6 +3,7 @@ import * as Dialog from "toldo";
 import type Device from "@/types/Device";
 import validateForm from "./validateForm";
 
+type DeviceFormErrors = Omit<Device, "id" | "createdAt">;
 type NewDeviceModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -13,8 +14,8 @@ const NewDeviceModal = ({
   onClose,
   onAddDevice,
 }: NewDeviceModalProps) => {
-  const [newDevice, setNewDevice] = useState(DEFAULT_DEVICE);
-  const [errors, setErrors] = useState({
+  const [newDevice, setNewDevice] = useState<Device>(DEFAULT_DEVICE);
+  const [errors, setErrors] = useState<DeviceFormErrors>({
     name: "",
     mobileNumber: "",
     lastConnection: "",

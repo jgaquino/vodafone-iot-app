@@ -7,8 +7,8 @@ import Topbar from "@/components/Topbar";
 import Device from "@/types/Device";
 
 export default function DevicePage() {
-  const { deviceId } = useParams();
   const [device, setDevice] = useState<Device | null>(null);
+  const { deviceId } = useParams();
 
   useEffect(() => {
     fetch(`/api/devices?deviceId=${deviceId}`)

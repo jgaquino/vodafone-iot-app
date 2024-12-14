@@ -7,10 +7,9 @@ import Topbar from "@/components/Topbar";
 import NewDeviceModal from "@/components/NewDeviceModal";
 import type Device from "@/types/Device";
 
-export default function Devices() {
-  const [newDevice, setNewDevice] = useState<Device | null>(null);
-  const [modalVisibility, setModalVisibility] = useState(false);
+export default function DevicesPage() {
   const [devices, setDevices] = useState<Device[]>([]);
+  const [modalVisibility, setModalVisibility] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("/api/devices")
@@ -21,8 +20,7 @@ export default function Devices() {
       .catch(() => alert("Something went wrong..."));
   }, []);
 
-  useEffect(() => {
-    if (!newDevice) return;
+  const addNewDevice = (newDevice: Device) => {
     fetch("/api/devices", {
       method: "POST",
       body: JSON.stringify({ device: newDevice }),
@@ -30,8 +28,7 @@ export default function Devices() {
       .then((response) => response.json())
       .then((device) => setDevices((prevDevices) => [...prevDevices, device]))
       .catch(() => alert("Something went wrong..."));
-  }, [newDevice]);
-
+  };
   const deleteDevice = (id: number) => {
     if (!confirm(`Are you sure you want to delete the device with ID ${id}?`))
       return;
@@ -55,20 +52,13 @@ export default function Devices() {
     <main>
       <Topbar />
       <PageTitle>Devices</PageTitle>
-      <div className="flex justify-end mb-4">
-        <button
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          onClick={() => setModalVisibility(true)}
-        >
-          Add new device
-        </button>
-      </div>
-      <DevicesTable devices={devices} onDeleteDevice={deleteDevice} />
+      <AddNewDeviceButton onClick={() => setModalVisibility(true)} />
       <NewDeviceModal
         isOpen={modalVisibility}
         onClose={() => setModalVisibility(false)}
-        onAddDevice={(device: Device) => setNewDevice(device)}
+        onAddDevice={(device: Device) => addNewDevice(device)}
       />
+      <DevicesTable devices={devices} onDeleteDevice={deleteDevice} />
     </main>
   );
 }
@@ -151,6 +141,19 @@ const DevicesTable = ({ devices, onDeleteDevice }: DevicesTableProps) => {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+};
+
+const AddNewDeviceButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <div className="flex justify-end mb-4">
+      <button
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        onClick={onClick}
+      >
+        Add new device
+      </button>
     </div>
   );
 };

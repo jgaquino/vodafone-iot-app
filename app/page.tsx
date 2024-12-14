@@ -6,7 +6,7 @@ import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 import type Device from "@/types/Device";
 
-export default function Home() {
+export default function HomePage() {
   const [devices, setDevices] = useState<Device[]>([]);
 
   useEffect(() => {

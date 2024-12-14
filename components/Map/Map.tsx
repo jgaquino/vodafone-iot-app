@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import type Device from "@/types/Device";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
@@ -5,7 +6,7 @@ import { type LatLngExpression } from "leaflet";
 import "leaflet-defaulticon-compatibility";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css"; // Import the marker cluster styles
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 type MarkerType = {
   position: LatLngExpression;
@@ -16,10 +17,7 @@ type MapProps = {
   devices: Device[];
 };
 export default function Map({ devices }: MapProps) {
-  const markers: MarkerType[] = devices.map((device: Device) => ({
-    label: device.name,
-    position: [parseFloat(device.latitude), parseFloat(device.longitude)],
-  }));
+  const markers = useMarkers(devices);
 
   return (
     <MapContainer
@@ -32,7 +30,7 @@ export default function Map({ devices }: MapProps) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MarkerClusterGroup>
-        {markers.map((marker, index) => (
+        {markers.map((marker: MarkerType, index: number) => (
           <Marker key={index} position={marker.position}>
             <Tooltip>{marker.label}</Tooltip>
           </Marker>
@@ -41,6 +39,19 @@ export default function Map({ devices }: MapProps) {
     </MapContainer>
   );
 }
+
+const useMarkers = (devices: Device[]) => {
+  const markers: MarkerType[] = useMemo(
+    () =>
+      devices.map((device: Device) => ({
+        label: device.name,
+        position: [parseFloat(device.latitude), parseFloat(device.longitude)],
+      })),
+    [devices]
+  );
+
+  return markers;
+};
 
 const MALAGA_CENTER_POSITION: LatLngExpression = [
   36.732143179858795, -4.422340393066407,
