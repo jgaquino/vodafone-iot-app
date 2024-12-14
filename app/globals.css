@@ -17,3 +17,7 @@
 body {
   background: #F5F5F5;
 }
+
+.leaflet-control-attribution {
+  display: none;
+}
