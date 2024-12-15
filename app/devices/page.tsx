@@ -5,6 +5,7 @@ import { useState, useCallback } from "react";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 import NewDeviceModal from "@/components/NewDeviceModal";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import type Device from "@/types/Device";
 import {
   useDevices,
@@ -13,10 +14,13 @@ import {
 } from "@/devices-api-hooks";
 
 export default function DevicesPage() {
-  const { devices, setDevices } = useDevices();
-  const addNewDevice = useAddNewDevice(setDevices);
-  const deleteDevice = useDeleteDevice(setDevices);
+  const { devices, setDevices, loading: devicesLoading } = useDevices();
+  const { addNewDevice, loading: addLoading } = useAddNewDevice(setDevices);
+  const { deleteDevice, loading: deleteLoading } = useDeleteDevice(setDevices);
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
+
+  const overlayLoading = addLoading || deleteLoading;
+  if (devicesLoading) return <LoadingSpinner />;
 
   return (
     <main>
@@ -29,6 +33,7 @@ export default function DevicesPage() {
         onAddDevice={(device: Device) => addNewDevice(device)}
       />
       <DevicesTable devices={devices} onDeleteDevice={deleteDevice} />
+      {overlayLoading && <LoadingSpinner />}
     </main>
   );
 }

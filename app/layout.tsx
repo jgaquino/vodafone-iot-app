@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vodafone | IoT App",
+  title: "Vodafone | IoT App",
   description:
     "We are creating an IoT app where we want to show different devices of a building and we have the requirements to add, delete or see the details of these devices.",
 };

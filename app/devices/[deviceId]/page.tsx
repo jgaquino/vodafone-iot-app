@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useCallback } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import PageTitle from "@/components/PageTitle";
 import Topbar from "@/components/Topbar";
 import Device from "@/types/Device";
@@ -9,10 +10,11 @@ import { useDevice } from "@/devices-api-hooks";
 
 export default function DevicePage() {
   const { deviceId } = useParams();
-  const { device } = useDevice(String(deviceId));
+  const { device, loading } = useDevice(String(deviceId));
 
   if (!deviceId) return null;
   if (!device) return null;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <main>
