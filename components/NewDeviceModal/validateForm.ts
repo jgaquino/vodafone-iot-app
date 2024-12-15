@@ -26,14 +26,14 @@ const validateForm = (errors: DeviceFormErrors, newDevice: Device) => {
     newErrors.lastConnection = "";
   }
 
-  if (!latitudeRegex.test(newDevice.latitude)) {
+  if (!isValidLatitude(newDevice.latitude)) {
     newErrors.latitude = "Latitude is not valid.";
     isValid = false;
   } else {
     newErrors.latitude = "";
   }
 
-  if (!longitudeRegex.test(newDevice.longitude)) {
+  if (!isValidLongitude(newDevice.longitude)) {
     newErrors.longitude = "Longitude is not valid.";
     isValid = false;
   } else {
@@ -44,8 +44,17 @@ const validateForm = (errors: DeviceFormErrors, newDevice: Device) => {
 };
 
 const mobileNumberRegex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
-const latitudeRegex = /^([-+]?(?:90(?:\.0{1,6})?|[1-9]?[0-9](?:\.\d{1,6})?))$/;
-const longitudeRegex =
-  /^([-+]?(?:180(?:\.0{1,6})?|[1-9]?[0-9]{1,2}(?:\.\d{1,6})?))$/;
+function isValidLatitude(latitude: string) {
+  const parsedLatitude = parseFloat(latitude);
+  return (
+    !isNaN(parsedLatitude) && parsedLatitude >= -90 && parsedLatitude <= 90
+  );
+}
+function isValidLongitude(longitude: string) {
+  const parsedLongitude = parseFloat(longitude);
+  return (
+    !isNaN(parsedLongitude) && parsedLongitude >= -180 && parsedLongitude <= 180
+  );
+}
 
 export default validateForm;
