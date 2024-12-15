@@ -3,7 +3,12 @@ import * as Dialog from "toldo";
 import type Device from "@/types/Device";
 import validateForm from "./validateForm";
 
-type DeviceFormErrors = Omit<Device, "id" | "createdAt">;
+export type DeviceFormErrors = Omit<
+  Device,
+  "id" | "createdAt" | "lastConnection"
+> & {
+  lastConnection: string;
+};
 type NewDeviceModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -91,7 +96,7 @@ const NewDeviceModal = ({
                 <input
                   type="date"
                   name="lastConnection"
-                  value={newDevice.lastConnection}
+                  value={String(newDevice.lastConnection)}
                   onChange={handleInputChange}
                   className={`w-full px-3 py-2 border rounded-md ${
                     errors.lastConnection ? "border-red-500" : ""
@@ -163,7 +168,7 @@ const NewDeviceModal = ({
 const DEFAULT_DEVICE: Device = {
   name: "",
   mobileNumber: "",
-  lastConnection: "",
+  lastConnection: new Date(),
   latitude: "",
   longitude: "",
 };

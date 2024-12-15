@@ -1,6 +1,7 @@
 import Device from "@/types/Device";
+import { type DeviceFormErrors } from "./NewDeviceModal";
 
-const validateForm = (errors: Device, newDevice: Device) => {
+const validateForm = (errors: DeviceFormErrors, newDevice: Device) => {
   const newErrors = { ...errors };
   let isValid = true;
 
