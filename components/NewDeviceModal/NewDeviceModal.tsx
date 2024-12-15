@@ -1,8 +1,16 @@
-import { useCallback, useState, type ChangeEvent, type FormEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import * as Dialog from "toldo";
+import { type LatLngExpression } from "leaflet";
 import type Device from "@/types/Device";
 import type DeviceFormErrors from "@/types/DeviceFormErrors";
 import validateForm from "./validateForm";
+import geolocation from "@/geolocation";
 
 type NewDeviceModalProps = {
   isOpen: boolean;
@@ -14,6 +22,9 @@ const NewDeviceModal = ({
   onClose,
   onAddDevice,
 }: NewDeviceModalProps) => {
+  const [userPosition, setUserPosition] = useState<LatLngExpression | null>(
+    null
+  );
   const [newDevice, setNewDevice] = useState<Device>(DEFAULT_DEVICE);
   const [errors, setErrors] = useState<DeviceFormErrors>({
     name: "",
@@ -22,6 +33,23 @@ const NewDeviceModal = ({
     latitude: "",
     longitude: "",
   });
+
+  useEffect(() => {
+    if (
+      !userPosition ||
+      !Array.isArray(userPosition) ||
+      userPosition.length !== 2
+    )
+      return;
+
+    const [latitude, longitude] = userPosition;
+
+    setNewDevice((prevDevice) => ({
+      ...prevDevice,
+      latitude: String(latitude),
+      longitude: String(longitude),
+    }));
+  }, [userPosition]);
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,6 +70,15 @@ const NewDeviceModal = ({
     },
     [newDevice, errors]
   );
+
+  const handleGetPosition = async () => {
+    try {
+      const position = await geolocation();
+      setUserPosition(position);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
@@ -120,7 +157,7 @@ const NewDeviceModal = ({
                   </span>
                 )}
               </div>
-              <div className="mb-4">
+              <div className="mb-1">
                 <label className="block mb-1">Longitude</label>
                 <input
                   type="text"
@@ -137,6 +174,14 @@ const NewDeviceModal = ({
                   </span>
                 )}
               </div>
+              <button
+                type="button"
+                onClick={handleGetPosition}
+                className="text-xs text-blue-500 hover:text-blue-700 underline"
+              >
+                Get my position?
+              </button>
+
               <div className="flex justify-end space-x-2">
                 <button
                   type="button"
