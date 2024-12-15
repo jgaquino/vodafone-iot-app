@@ -30,7 +30,9 @@ type DeviceDetailsProps = {
 };
 const DeviceDetails = ({ device }: DeviceDetailsProps) => {
   const router = useRouter();
-  const goBackToHomePage = useCallback(() => router.push("/"), []);
+
+  const goToHomePage = useCallback(() => router.push("/"), []);
+  const goToDevicesPage = useCallback(() => router.push("/devices"), []);
 
   return (
     <div className="mt-10 p-4 max-w-md mx-auto border border-gray-300 rounded shadow">
@@ -56,12 +58,20 @@ const DeviceDetails = ({ device }: DeviceDetailsProps) => {
       <p>
         <strong>Longitude:</strong> {device.longitude}
       </p>
-      <button
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={goBackToHomePage}
-      >
-        Go Back
-      </button>
+      <div className="flex justify-between">
+        <button
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={goToDevicesPage}
+        >
+          Devices page
+        </button>
+        <button
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={goToHomePage}
+        >
+          Home page
+        </button>
+      </div>
     </div>
   );
 };
