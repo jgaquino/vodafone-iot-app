@@ -3,7 +3,7 @@ type Device = {
   createdAt?: Date;
   name: string;
   mobileNumber: string;
-  lastConnection: string;
+  lastConnection: Date;
   latitude: string;
   longitude: string;
 };

@@ -38,7 +38,8 @@ const DeviceDetails = ({ device }: DeviceDetailsProps) => {
     <div className="mt-10 p-4 max-w-md mx-auto border border-gray-300 rounded shadow">
       <h1 className="text-xl font-bold mb-4">Device Details</h1>
       <p>
-        <strong>Created at:</strong> {String(device.createdAt)}
+        <strong>Created at:</strong>{" "}
+        {device.createdAt && new Date(device.createdAt).toLocaleDateString()}
       </p>
       <p>
         <strong>ID:</strong> {device.id}
@@ -50,7 +51,9 @@ const DeviceDetails = ({ device }: DeviceDetailsProps) => {
         <strong>Mobile Number:</strong> {device.mobileNumber}
       </p>
       <p>
-        <strong>Last Connection:</strong> {device.lastConnection}
+        <strong>Last Connection:</strong>{" "}
+        {device.lastConnection &&
+          new Date(device.lastConnection).toLocaleDateString()}
       </p>
       <p>
         <strong>Latitude:</strong> {device.latitude}

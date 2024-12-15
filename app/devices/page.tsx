@@ -92,7 +92,8 @@ const DevicesTable = ({ devices, onDeleteDevice }: DevicesTableProps) => {
                 {device.mobileNumber}
               </td>
               <td className="border border-gray-300 px-4 py-2">
-                {device.lastConnection}
+                {device.lastConnection &&
+                  new Date(device.lastConnection).toLocaleDateString()}
               </td>
               <td className="border border-gray-300 px-4 py-2">
                 {device.latitude}
@@ -122,7 +123,7 @@ const DevicesTable = ({ devices, onDeleteDevice }: DevicesTableProps) => {
 
 const AddNewDeviceButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <div className="flex justify-end mb-4">
+    <div className="flex justify-center mb-4">
       <button
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         onClick={onClick}
