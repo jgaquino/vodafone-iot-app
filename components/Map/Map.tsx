@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useMemo } from "react";
 import type Device from "@/types/Device";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
@@ -9,8 +10,9 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 type MarkerType = {
-  position: LatLngExpression;
+  deviceId?: number;
   label: string;
+  position: LatLngExpression;
 };
 
 type MapProps = {
@@ -18,6 +20,12 @@ type MapProps = {
 };
 export default function Map({ devices }: MapProps) {
   const markers = useMarkers(devices);
+  const router = useRouter();
+
+  const handleMarkerClick = useCallback((deviceId?: number) => {
+    if (!deviceId) return;
+    router.push(`/devices/${deviceId}`);
+  }, []);
 
   return (
     <MapContainer
@@ -31,8 +39,19 @@ export default function Map({ devices }: MapProps) {
       />
       <MarkerClusterGroup>
         {markers.map((marker: MarkerType, index: number) => (
-          <Marker key={index} position={marker.position}>
-            <Tooltip>{marker.label}</Tooltip>
+          <Marker
+            key={index}
+            position={marker.position}
+            eventHandlers={{
+              click: () => handleMarkerClick(marker.deviceId),
+            }}
+          >
+            <Tooltip>
+              <p>{marker.label}</p>
+              <p>
+                ID: <strong>#{marker.deviceId}</strong>
+              </p>
+            </Tooltip>
           </Marker>
         ))}
       </MarkerClusterGroup>
@@ -45,6 +64,7 @@ const useMarkers = (devices: Device[]) => {
     () =>
       devices.map((device: Device) => ({
         label: device.name,
+        deviceId: device.id,
         position: [parseFloat(device.latitude), parseFloat(device.longitude)],
       })),
     [devices]
