@@ -1,14 +1,9 @@
 import { useCallback, useState, type ChangeEvent, type FormEvent } from "react";
 import * as Dialog from "toldo";
 import type Device from "@/types/Device";
+import type DeviceFormErrors from "@/types/DeviceFormErrors";
 import validateForm from "./validateForm";
 
-export type DeviceFormErrors = Omit<
-  Device,
-  "id" | "createdAt" | "lastConnection"
-> & {
-  lastConnection: string;
-};
 type NewDeviceModalProps = {
   isOpen: boolean;
   onClose: () => void;
