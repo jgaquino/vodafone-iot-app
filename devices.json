@@ -1,0 +1,162 @@
+[
+ {
+  "id": 1,
+  "name": "Device 1",
+  "mobileNumber": "+34612345678",
+  "lastConnection": "2024-12-14T09:00:00Z",
+  "latitude": "36.7201600",
+  "longitude": "-4.4203400"
+ },
+ {
+  "id": 2,
+  "name": "Device 2",
+  "mobileNumber": "+34612345679",
+  "lastConnection": "2024-12-14T09:05:00Z",
+  "latitude": "36.7191300",
+  "longitude": "-4.4187500"
+ },
+ {
+  "id": 3,
+  "name": "Device 3",
+  "mobileNumber": "+34612345680",
+  "lastConnection": "2024-12-14T09:10:00Z",
+  "latitude": "36.7223500",
+  "longitude": "-4.4169300"
+ },
+ {
+  "id": 4,
+  "name": "Device 4",
+  "mobileNumber": "+34612345681",
+  "lastConnection": "2024-12-14T09:15:00Z",
+  "latitude": "36.7235800",
+  "longitude": "-4.4171000"
+ },
+ {
+  "id": 5,
+  "name": "Device 5",
+  "mobileNumber": "+34612345682",
+  "lastConnection": "2024-12-14T09:20:00Z",
+  "latitude": "36.7240000",
+  "longitude": "-4.4190000"
+ },
+ {
+  "id": 6,
+  "name": "Device 6",
+  "mobileNumber": "+34612345683",
+  "lastConnection": "2024-12-14T09:25:00Z",
+  "latitude": "36.7258000",
+  "longitude": "-4.4185000"
+ },
+ {
+  "id": 7,
+  "name": "Device 7",
+  "mobileNumber": "+34612345684",
+  "lastConnection": "2024-12-14T09:30:00Z",
+  "latitude": "36.7302000",
+  "longitude": "-4.4181000"
+ },
+ {
+  "id": 8,
+  "name": "Device 8",
+  "mobileNumber": "+34612345685",
+  "lastConnection": "2024-12-14T09:35:00Z",
+  "latitude": "36.7336000",
+  "longitude": "-4.4200000"
+ },
+ {
+  "id": 9,
+  "name": "Device 9",
+  "mobileNumber": "+34612345686",
+  "lastConnection": "2024-12-14T09:40:00Z",
+  "latitude": "36.7359000",
+  "longitude": "-4.4222000"
+ },
+ {
+  "id": 10,
+  "name": "Device 10",
+  "mobileNumber": "+34612345687",
+  "lastConnection": "2024-12-14T09:45:00Z",
+  "latitude": "36.7380000",
+  "longitude": "-4.4241000"
+ },
+ {
+  "id": 11,
+  "name": "Device 11",
+  "mobileNumber": "+34612345688",
+  "lastConnection": "2024-12-14T09:50:00Z",
+  "latitude": "36.7405000",
+  "longitude": "-4.4253000"
+ },
+ {
+  "id": 12,
+  "name": "Device 12",
+  "mobileNumber": "+34612345689",
+  "lastConnection": "2024-12-14T09:55:00Z",
+  "latitude": "36.7423000",
+  "longitude": "-4.4266000"
+ },
+ {
+  "id": 13,
+  "name": "Device 13",
+  "mobileNumber": "+34612345690",
+  "lastConnection": "2024-12-14T10:00:00Z",
+  "latitude": "36.7442000",
+  "longitude": "-4.4285000"
+ },
+ {
+  "id": 14,
+  "name": "Device 14",
+  "mobileNumber": "+34612345691",
+  "lastConnection": "2024-12-14T10:05:00Z",
+  "latitude": "36.7457000",
+  "longitude": "-4.4290000"
+ },
+ {
+  "id": 15,
+  "name": "Device 15",
+  "mobileNumber": "+34612345692",
+  "lastConnection": "2024-12-14T10:10:00Z",
+  "latitude": "36.7468000",
+  "longitude": "-4.4301000"
+ },
+ {
+  "id": 16,
+  "name": "Device 16",
+  "mobileNumber": "+34612345693",
+  "lastConnection": "2024-12-14T10:15:00Z",
+  "latitude": "36.7475000",
+  "longitude": "-4.4315000"
+ },
+ {
+  "id": 17,
+  "name": "Device 17",
+  "mobileNumber": "+34612345694",
+  "lastConnection": "2024-12-14T10:20:00Z",
+  "latitude": "36.7489000",
+  "longitude": "-4.4328000"
+ },
+ {
+  "id": 18,
+  "name": "Device 18",
+  "mobileNumber": "+34612345695",
+  "lastConnection": "2024-12-14T10:25:00Z",
+  "latitude": "36.7495000",
+  "longitude": "-4.4335000"
+ },
+ {
+  "id": 19,
+  "name": "Device 19",
+  "mobileNumber": "+34612345696",
+  "lastConnection": "2024-12-14T10:30:00Z",
+  "latitude": "36.7507000",
+  "longitude": "-4.4350000"
+ },
+ {
+  "id": 20,
+  "name": "Device 20",
+  "mobileNumber": "+34612345697",
+  "lastConnection": "2024-12-14T10:35:00Z",
+  "latitude": "36.7512000",
+  "longitude": "-4.4362000"
+ }
+]
