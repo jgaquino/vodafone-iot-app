@@ -22,10 +22,13 @@ export default function Map({ devices }: MapProps) {
   const markers = useMarkers(devices);
   const router = useRouter();
 
-  const handleMarkerClick = useCallback((deviceId?: number) => {
-    if (!deviceId) return;
-    router.push(`/devices/${deviceId}`);
-  }, []);
+  const handleMarkerClick = useCallback(
+    (deviceId?: number) => {
+      if (!deviceId) return;
+      router.push(`/devices/${deviceId}`);
+    },
+    [router],
+  );
 
   return (
     <MapContainer
@@ -67,7 +70,7 @@ const useMarkers = (devices: Device[]) => {
         deviceId: device.id,
         position: [parseFloat(device.latitude), parseFloat(device.longitude)],
       })),
-    [devices]
+    [devices],
   );
 
   return markers;

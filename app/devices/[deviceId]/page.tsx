@@ -31,8 +31,8 @@ type DeviceDetailsProps = {
 const DeviceDetails = ({ device }: DeviceDetailsProps) => {
   const router = useRouter();
 
-  const goToHomePage = useCallback(() => router.push("/"), []);
-  const goToDevicesPage = useCallback(() => router.push("/devices"), []);
+  const goToHomePage = useCallback(() => router.push("/"), [router]);
+  const goToDevicesPage = useCallback(() => router.push("/devices"), [router]);
 
   return (
     <div className="mt-10 p-4 max-w-md mx-auto border border-gray-300 rounded shadow">

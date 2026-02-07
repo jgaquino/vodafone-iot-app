@@ -23,7 +23,7 @@ const NewDeviceModal = ({
   onAddDevice,
 }: NewDeviceModalProps) => {
   const [userPosition, setUserPosition] = useState<LatLngExpression | null>(
-    null
+    null,
   );
   const [newDevice, setNewDevice] = useState<Device>(DEFAULT_DEVICE);
   const [errors, setErrors] = useState<DeviceFormErrors>({
@@ -68,7 +68,7 @@ const NewDeviceModal = ({
       setNewDevice(DEFAULT_DEVICE);
       onClose();
     },
-    [newDevice, errors]
+    [newDevice, errors, onAddDevice, onClose],
   );
 
   const handleGetPosition = async () => {

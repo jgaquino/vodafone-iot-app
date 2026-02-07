@@ -48,7 +48,7 @@ const DevicesTable = ({ devices, onDeleteDevice }: DevicesTableProps) => {
 
   const handleRowClick = useCallback(
     (id?: number) => router.push(`/devices/${id}`),
-    []
+    [router],
   );
 
   return (
